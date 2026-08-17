@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.hero {
+    color: black;
+    padding: 20px;
+    text-align: center;
+}
+
+.game-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.color-display {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.color-box-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.color-box-label {
+    font-size: 1rem;
+}
+
+.color-box {
+    width: 160px;
+    height: 160px;
+    border: 2px solid;
+}
+
+.hex-label {
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+.controls {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.slider-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.slider-group label {
+    width: 20px;
+}
+
+.slider-group input[type="range"] {
+    flex: 1;
+}
+
+.value-display {
+    width: 36px;
+    text-align: right;
+    font-family: monospace;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+}
+
+.actions button {
+    padding: 10px 20px;
+}
+
+.results {
+    text-align: center;
+}
+

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Guesser</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="hero">
+        <h1 class="hero-title">Color Guesser</h1>
+        <p class="hero-text">
+            A color guessing game where you can test how close you can get to guessing the correct color based on its RGB value. Try to guess the color by entering your guess in the input field below and see how close you can get!
+        </p>
+    </div>
+
+    <main class="game-container">
+        <section class="color-display">
+            <div class="color-box-wrapper">
+                <h2 class="color-box-label">Target Color</h2>
+                <div class="color-box" id="target-color-box"></div>
+                <p class="hex-label" id="target-hex">#------</p>
+            </div>
+
+            <div class="color-box-wrapper">
+                <h2 class="color-box-label">Your Guess</h2>
+                <div class="color-box" id="guess-color-box"></div>
+                <p class="hex-label" id="guess-hex">#------</p>
+            </div>
+        </section>
+
+        <section class="controls">
+            <div class="slider-group">
+                <label for="red-slider">R</label>
+                <input type="range" id="red-slider" min="0" max="255" value="0">
+                <span class="value-display" id="red-value">0</span>
+            </div>
+
+            <div class="slider-group">
+                <label for="green-slider">G</label>
+                <input type="range" id="green-slider" min="0" max="255" value="0">
+                <span class="value-display" id="green-value">0</span>
+            </div>
+
+            <div class="slider-group">
+                <label for="blue-slider">B</label>
+                <input type="range" id="blue-slider" min="0" max="255" value="0">
+                <span class="value-display" id="blue-value">0</span>
+            </div>
+        </section>
+
+        <section class="actions">
+            <button type="button" id="check-guess-btn">Check Guess</button>
+            <button type="button" id="new-color-btn">New Color</button>
+        </section>
+
+        <section class="results" id="results-section">
+            <p class="score-label">Score: <span id="score-value">--</span></p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
