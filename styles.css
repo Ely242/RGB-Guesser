@@ -120,7 +120,6 @@ body {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.875rem;
     font-weight: 600;
-    text-transform: uppercase;
 }
 
 .slider-group input[type="range"] {
@@ -130,7 +129,18 @@ body {
     border-radius: 999px;
     outline: none;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.18);
+}
+
+.red-slider-group input[type="range"] {
+    background: linear-gradient(to right, #ff4d4d 0%, #ff4d4d 100%);
+}
+
+.green-slider-group input[type="range"] {
+    background: linear-gradient(to right, #4dff4d 0%, #4dff4d 100%);
+}
+
+.blue-slider-group input[type="range"] {
+    background: linear-gradient(to right, #4d4dff 0%, #4d4dff 100%);
 }
 
 .slider-group input[type="range"]::-webkit-slider-thumb {
