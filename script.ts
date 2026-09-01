@@ -19,11 +19,26 @@ let score = 0;
 const MAX_DISTANCE = Math.sqrt((255 ** 2) * 3);
 
 /**
- * Initializes the game with a new color and resettingthe score
+ * Initializes the game by generating a new target color, updating the target color box and label,
+ * resetting the guess box, and resetting the score.
  */
 function initGame() {
-    generateNewColor();
+    // Generate a new target color
+    for (let i = 0; i < 3; i++) {
+        targetColor[i] = Math.floor(Math.random() * 256);
+    }
+    // Set the color of the box
+    if (targetColorBox) {
+        targetColorBox.style.backgroundColor = `rgb(${targetColor[0]}, ${targetColor[1]}, ${targetColor[2]})`;
+    }
+    // Set the label to the generated color
+    if (targetColorLabel) {
+        targetColorLabel.textContent = getHexCode(targetColor);
+    }
+
     updateGuessBox();
+    score = 0;
+    updateScore();
 }
 
 /**
@@ -37,29 +52,6 @@ function getHexCode(values: number[]): string {
     }
     const val: number = (values[0] << 16) | (values[1] << 8) | values[2];
     return `#${val.toString(16).padStart(6, '0').toUpperCase()}`;
-}
-
-/**
- * Generates a new color by assigning each of the R, G, B values to a random number between 0 and 255 inclusive.
- * Changes the background color of the target-color-box to the generated color.
- */
-function generateNewColor() {
-    for (let i = 0; i < 3; i++) {
-        targetColor[i] = Math.floor(Math.random() * 256);
-    }
-    
-    // Set the color of the box
-    if (targetColorBox) {
-        targetColorBox.style.backgroundColor = `rgb(${targetColor[0]}, ${targetColor[1]}, ${targetColor[2]})`;
-    }
-    
-    // Set the label to the generated color
-    if (targetColorLabel) {
-        targetColorLabel.textContent = getHexCode(targetColor);
-    }
-
-    score = 0;
-    updateScore();
 }
 
 /**
@@ -121,7 +113,7 @@ function handleCheckGuess() {
     updateScore();
 }
 
-newColorButton?.addEventListener("click", generateNewColor);
+newColorButton?.addEventListener("click", initGame);
 checkGuessButton?.addEventListener('click', handleCheckGuess);
 document.querySelectorAll('.rgb-slider').forEach(el => el?.addEventListener('input', handleSliderInput));
 
