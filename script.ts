@@ -2,7 +2,6 @@
 
 const newColorButton = document.getElementById("new-color-btn") as HTMLElement;
 const targetColorBox = document.getElementById("target-color-box") as HTMLElement;
-const targetColorLabel = document.getElementById("target-hex") as HTMLElement;
 
 const rSlider = document.getElementById("red-slider") as HTMLInputElement;
 const gSlider = document.getElementById("green-slider") as HTMLInputElement;
@@ -30,10 +29,6 @@ function initGame() {
     // Set the color of the box
     if (targetColorBox) {
         targetColorBox.style.backgroundColor = `rgb(${targetColor[0]}, ${targetColor[1]}, ${targetColor[2]})`;
-    }
-    // Set the label to the generated color
-    if (targetColorLabel) {
-        targetColorLabel.textContent = getHexCode(targetColor);
     }
 
     updateGuessBox();
@@ -82,6 +77,10 @@ const handleSliderInput = (event: Event): void => {
 
     if (valueDisplay) {
         valueDisplay.textContent = slider.value;
+    }
+
+    if (guessColorBox) {
+        guessColorBox.style.boxShadow = `0 0 40px rgba(${rSlider.value}, ${gSlider.value}, ${bSlider.value}, 0.5)`;
     }
 
     updateGuessBox();

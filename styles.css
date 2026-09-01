@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
+:root {
+    --background-color: #080808;
+    --text-color-primary: #fff;
+    --font-family: 'Outfit', sans-serif;
+    --border-color: #ccc;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,18 +15,18 @@
 
 body {
     font-family: 'Outfit', sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color-primary);
 }
 
 .hero {
-    color: black;
+    color: var(--text-color-primary);
     padding: 20px;
     text-align: center;
 }
 
 .game-container {
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     display: flex;
@@ -31,8 +38,13 @@ body {
 .color-display {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 1.5rem;
     flex-wrap: wrap;
+    flex-direction: row;
+}
+
+#target-hex {
+    letter-spacing: 12px;
 }
 
 .color-box-wrapper {
@@ -43,46 +55,119 @@ body {
 }
 
 .color-box-label {
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-family: 'Outfit', sans-serif;
 }
 
 .color-box {
-    width: 160px;
-    height: 160px;
-    border: 2px solid;
+    width: 320px;
+    height: 320px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    /* add an outer glow */
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
 }
 
 .hex-label {
+    font-size: 18px;
     font-family: 'JetBrains Mono', monospace;
     letter-spacing: 1px;
+    font-weight: 700;
 }
 
 .controls {
     width: 100%;
-    max-width: 400px;
+    max-width: 700px;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+#red-value {
+    color: #ff6b6b;
+}
+
+#green-value {
+    color: #6bff9e;
+}
+
+#blue-value {
+    color: #6bb8ff;
+}
+
+#red-value, #green-value, #blue-value {
+    font-weight: 600;
 }
 
 .slider-group {
     display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.slider-header {
+    width: 100%;
+    display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
 }
 
 .slider-group label {
-    width: 20px;
     font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
 .slider-group input[type="range"] {
-    flex: 1;
+    width: 100%;
+    height: 6px;
+    appearance: none;
+    border-radius: 999px;
+    outline: none;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    appearance: none;
+    border: 2px solid #080808;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 2px currentColor;
+}
+
+.slider-group input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #080808;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 2px currentColor;
+}
+
+#red-slider {
+    color: #ff4d4d;
+    accent-color: #ff4d4d;
+}
+
+#green-slider {
+    color: #4dff4d;
+    accent-color: #4dff4d;
+}
+
+#blue-slider {
+    color: #4d4dff;
+    accent-color: #4d4dff;
 }
 
 .value-display {
-    width: 36px;
     text-align: right;
     font-family: 'JetBrains Mono', monospace;
 }
