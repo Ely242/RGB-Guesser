@@ -23,7 +23,7 @@
             <div class="color-box-wrapper">
                 <h2 class="color-box-label">Your Guess</h2>
                 <div class="color-box" id="guess-color-box"></div>
-                <p class="hex-label" id="guess-hex">#000000</p>
+                <p class="hex-label" id="guess-hex">#------</p>
             </div>
         </section>
 
@@ -58,9 +58,22 @@
             <button type="button" id="new-color-btn">New Color</button>
         </section>
 
-        <section class="results" id="results-section">
-            <p class="score-label">Score: <span id="score-value">--</span></p>
-        </section>
+        <div id="scoreModal" class="modal-overlay">
+            <div class="modal-box">
+                <h2 id="score-message">---</h2>
+                <p>Your score: <span id="modal-score-value">100%</span></p>
+                <div class="modal-target-info">
+                    <p class="target-label">Target Color</p>
+                    <div class="modal-target-color-box" id="modal-target-color-box"></div>
+                    <p class="target-hex" id="modal-target-hex">#------</p>
+                    <p class="target-rgb"><span class="rgb-label">R:</span> <span id="modal-target-r">0</span> <span class="rgb-label">G:</span> <span id="modal-target-g">0</span> <span class="rgb-label">B:</span> <span id="modal-target-b">0</span></p>
+                </div>
+                <button id="close-modal-btn">Close</button>
+                <div class="modal-actions">
+                    <button type="button" id="new-color-btn">New Color</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script src="script.js"></script>
