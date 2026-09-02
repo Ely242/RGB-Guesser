@@ -26,7 +26,6 @@ const modalTargetColorBox = document.getElementById("modal-target-color-box") as
 let targetColor: number[] = [0, 0, 0];
 let guessColor: number[] = [0, 0, 0];
 let score = 0;
-const MAX_DISTANCE = Math.sqrt((255 ** 2) * 3);
 
 const messageTiers = [
   { threshold: 100, phrases: ["Flawless!", "Pure Perfection!"] },
@@ -157,20 +156,29 @@ function getScoreMessage(score: number): string {
 }
 
 /**
- * Calculates the score based on the user's guess and the target color.
- * The score is calculated using the Euclidean distance between the two colors in RGB space.
- * The score is then normalized to a percentage between 0 and 100.
- * @returns The calculated score as a number between 0 and 100.
+ * The largest error reachable on a single channel for a given target value, i.e. the distance to
+ * whichever end of the 0-255 range is further away. Never below 127.5, so it is safe to divide by.
+ * @param target - The target value for one channel
+ * @returns The maximum achievable absolute error on that channel
+ */
+function channelHeadroom(target: number): number {
+    return Math.max(target, 255 - target);
+}
+
+/**
+ * Scores the user's current guess against the target color and returns a percentage score between 0 and 100, where 100 is a perfect match.
+ *
+ * Each channel's error is normalized by its own headroom (see {@link channelHeadroom}) before the three
+ * are combined, so that 0% and 100% are both reachable no matter which target color was chosen.
  */
 function calculateScore(): number {
-    // get color values
-    const [r1, g1, b1] = guessColor;
-    const [r2, g2, b2] = targetColor;
-
-    // calculate euclidean distance
-    const dist = Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
-    const percentage = (1 - dist / MAX_DISTANCE) * 100.0;
-
+    let sumOfSquares = 0;
+    for (let i = 0; i < 3; i++) {
+        const normalizedError = Math.abs(guessColor[i] - targetColor[i]) / channelHeadroom(targetColor[i]);
+        sumOfSquares += normalizedError ** 2;
+    }
+    const error = Math.sqrt(sumOfSquares / 3);
+    const percentage = (1 - error) * 100.0;
     return Math.max(0, Math.min(100.0, +percentage.toFixed(1)));
 }
 
