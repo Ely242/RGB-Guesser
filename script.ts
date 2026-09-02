@@ -196,6 +196,10 @@ function handleCheckGuess() {
 
     if (modalScoreDisplay) {
         modalScoreDisplay.textContent = `${score.toFixed(1)}%`;
+        // restart the pulse animation on every guess
+        modalScoreDisplay.classList.remove("pulse");
+        void modalScoreDisplay.offsetWidth;
+        modalScoreDisplay.classList.add("pulse");
     }
 
     // Update target color info
