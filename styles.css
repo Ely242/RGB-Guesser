@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +7,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Outfit', sans-serif;
     background-color: #f0f0f0;
     color: #333;
 }
@@ -42,6 +44,7 @@ body {
 
 .color-box-label {
     font-size: 1rem;
+    font-family: 'Outfit', sans-serif;
 }
 
 .color-box {
@@ -51,7 +54,7 @@ body {
 }
 
 .hex-label {
-    font-family: monospace;
+    font-family: 'JetBrains Mono', monospace;
     letter-spacing: 1px;
 }
 
@@ -71,6 +74,7 @@ body {
 
 .slider-group label {
     width: 20px;
+    font-family: 'JetBrains Mono', monospace;
 }
 
 .slider-group input[type="range"] {
@@ -80,7 +84,7 @@ body {
 .value-display {
     width: 36px;
     text-align: right;
-    font-family: monospace;
+    font-family: 'JetBrains Mono', monospace;
 }
 
 .actions {
@@ -94,5 +98,6 @@ body {
 
 .results {
     text-align: center;
+    font-family: 'Outfit', sans-serif;
 }
 
