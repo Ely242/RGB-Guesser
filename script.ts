@@ -17,6 +17,7 @@ const scoreMessage = document.getElementById("score-message") as HTMLElement;
 const modalScoreDisplay = document.getElementById("modal-score-value") as HTMLElement;
 const scoreModal = document.getElementById("scoreModal") as HTMLElement;
 const closeModalButton = document.getElementById("close-modal-btn") as HTMLElement;
+const modalNewColorButton = document.getElementById("modal-new-color-btn") as HTMLElement;
 const modalTargetHex = document.getElementById("modal-target-hex") as HTMLElement;
 const modalTargetR = document.getElementById("modal-target-r") as HTMLElement;
 const modalTargetG = document.getElementById("modal-target-g") as HTMLElement;
@@ -196,6 +197,10 @@ function handleCheckGuess() {
 
     if (modalScoreDisplay) {
         modalScoreDisplay.textContent = `${score.toFixed(1)}%`;
+        // restart the pulse animation on every guess
+        modalScoreDisplay.classList.remove("pulse");
+        void modalScoreDisplay.offsetWidth;
+        modalScoreDisplay.classList.add("pulse");
     }
 
     // Update target color info
@@ -221,6 +226,7 @@ function handleCheckGuess() {
 }
 
 newColorButton?.addEventListener("click", initGame);
+modalNewColorButton?.addEventListener("click", initGame);
 checkGuessButton?.addEventListener('click', handleCheckGuess);
 document.querySelectorAll('.rgb-slider').forEach(el => el?.addEventListener('input', handleSliderInput));
 
