@@ -16,7 +16,16 @@ const checkGuessButton = document.getElementById("check-guess-btn") as  HTMLElem
 let targetColor: number[] = [0, 0, 0];
 let guessColor: number[] = [0, 0, 0];
 let score = 0;
-const MAX_DISTANCE = Math.sqrt((255 ** 2) * 3);
+
+/**
+ * The largest error reachable on a single channel for a given target value, i.e. the distance to
+ * whichever end of the 0-255 range is further away. Never below 127.5, so it is safe to divide by.
+ * @param target - The target value for one channel
+ * @returns The maximum achievable absolute error on that channel
+ */
+function channelHeadroom(target: number): number {
+    return Math.max(target, 255 - target);
+}
 
 /**
  * Initializes the game by generating a new target color, updating the target color box and label,
@@ -97,17 +106,20 @@ function updateScore() {
 }
 
 /**
- * Calculates the distance between the target color and the user's current guess, changes it
- * to a percentage, and calls {@link updateScore} to update with the current score.
+ * Scores the user's current guess against the target color and calls {@link updateScore} to display it.
+ *
+ * Each channel's error is normalized by its own headroom (see {@link channelHeadroom}) before the three
+ * are combined, so that 0% and 100% are both reachable no matter which target color was chosen.
  */
 function handleCheckGuess() {
-    // get color values
-    const [r1, g1, b1] = guessColor;
-    const [r2, g2, b2] = targetColor;
+    let sumOfSquares = 0;
+    for (let i = 0; i < 3; i++) {
+        const normalizedError = Math.abs(guessColor[i] - targetColor[i]) / channelHeadroom(targetColor[i]);
+        sumOfSquares += normalizedError ** 2;
+    }
 
-    // calculate euclidean distance
-    const dist = Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
-    const percentage = (1 - dist / MAX_DISTANCE) * 100.0;
+    const error = Math.sqrt(sumOfSquares / 3);
+    const percentage = (1 - error) * 100.0;
     score = Math.max(0, Math.min(100.0, +percentage.toFixed(1)));
 
     updateScore();
