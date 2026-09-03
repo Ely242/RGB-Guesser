@@ -139,6 +139,10 @@ body {
     cursor: pointer;
 }
 
+.slider-group input[type="range"]:focus-visible {
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.4);
+}
+
 .red-slider-group input[type="range"] {
     background: linear-gradient(to right, #ff4d4d 0%, #ff4d4d 100%);
 }

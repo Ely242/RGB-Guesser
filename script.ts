@@ -286,5 +286,61 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
     }
 });
 
+// keyboard shortcuts: Ctrl+Enter checks the guess, Ctrl+' starts a new color,
+// and Up/Down move focus between the R, G, and B sliders (Left/Right keep their
+// native behaviour of nudging the focused slider's value)
+const rgbSliders: HTMLInputElement[] = [rSlider, gSlider, bSlider];
+
+document.addEventListener("keydown", (event: KeyboardEvent) => {
+    if (event.ctrlKey && event.key === "Enter") {
+        event.preventDefault();
+        handleCheckGuess();
+        return;
+    }
+
+    if (event.ctrlKey && event.key === "'") {
+        event.preventDefault();
+        initGame();
+        return;
+    }
+
+    const target = event.target as HTMLElement;
+    const key = event.key.toLowerCase();
+    const isSliderFocused = target?.classList?.contains("rgb-slider") ?? false;
+
+    // Up/Down/W/S move focus between sliders, or focus the first slider if none is focused yet
+    if (key === "arrowup" || key === "arrowdown" || key === "w" || key === "s") {
+        event.preventDefault();
+        if (isSliderFocused) {
+            const currentIndex = rgbSliders.indexOf(target as HTMLInputElement);
+            const nextIndex = key === "arrowup" || key === "w" ? currentIndex - 1 : currentIndex + 1;
+            rgbSliders[nextIndex]?.focus();
+        } else {
+            rgbSliders[0]?.focus();
+        }
+        return;
+    }
+
+    // Left/Right/A/D nudge the focused slider's value, or focus and nudge the first slider if none is focused yet
+    if (key === "arrowleft" || key === "arrowright" || key === "a" || key === "d") {
+        const slider = (isSliderFocused ? target : rgbSliders[0]) as HTMLInputElement;
+        if (!slider) return;
+
+        // native range inputs already nudge their value on ArrowLeft/ArrowRight when focused,
+        // so only step the value manually for A/D or when we're focusing the slider for the first time
+        const needsManualStep = key === "a" || key === "d" || !isSliderFocused;
+        if (!isSliderFocused) {
+            slider.focus();
+        }
+        if (needsManualStep) {
+            event.preventDefault();
+            const step = Number(slider.step) || 1;
+            const isDecrease = key === "arrowleft" || key === "a";
+            slider.value = String(+slider.value + (isDecrease ? -step : step));
+            slider.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+    }
+});
+
 // initialize the game
 initGame();
