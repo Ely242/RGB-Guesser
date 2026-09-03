@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --background-color: #080808;
+    --background-color: #16181d;
     --text-color-primary: #fff;
     --font-family: 'Outfit', sans-serif;
     --border-color: #ccc;
+    --accent-color: #4fd1c5;
+    --accent-rgb: 79, 209, 197;
 }
 
 * {
@@ -153,7 +155,7 @@ body {
     width: 18px;
     height: 18px;
     appearance: none;
-    border: 2px solid #080808;
+    border: 2px solid var(--background-color);
     border-radius: 50%;
     background: #fff;
     box-shadow: 0 0 0 2px currentColor;
@@ -167,7 +169,7 @@ body {
 .slider-group input[type="range"]::-moz-range-thumb {
     width: 14px;
     height: 14px;
-    border: 2px solid #080808;
+    border: 2px solid var(--background-color);
     border-radius: 50%;
     background: #fff;
     box-shadow: 0 0 0 2px currentColor;
@@ -204,7 +206,7 @@ body {
     padding: 12px 28px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 6px;
-    background-color: rgba(107, 184, 255, 0.1);
+    background-color: rgba(var(--accent-rgb), 0.12);
     color: var(--text-color-primary);
     font-family: 'Outfit', sans-serif;
     font-size: 0.95rem;
@@ -214,8 +216,8 @@ body {
 }
 
 .actions button:hover {
-    background-color: rgba(107, 184, 255, 0.2);
-    border-color: rgba(107, 184, 255, 0.5);
+    background-color: rgba(var(--accent-rgb), 0.22);
+    border-color: rgba(var(--accent-rgb), 0.5);
 }
 
 .actions button:active {
@@ -250,7 +252,7 @@ body {
 }
 
 .modal-box {
-    background-color: rgba(8, 8, 8, 0.95);
+    background-color: rgba(22, 24, 29, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     padding: 2.5rem;
@@ -279,7 +281,7 @@ body {
 #modal-score-value {
     font-family: 'JetBrains Mono', monospace;
     font-weight: 600;
-    color: #6bb8ff;
+    color: var(--accent-color);
     font-size: 1.1rem;
     display: inline-block;
 }
@@ -324,7 +326,7 @@ body {
     font-family: 'JetBrains Mono', monospace;
     font-size: 1.25rem;
     font-weight: 700;
-    color: #6bb8ff;
+    color: var(--accent-color);
     letter-spacing: 2px;
 }
 
@@ -355,13 +357,13 @@ body {
 }
 
 .channel-reveal:hover {
-    background-color: rgba(107, 184, 255, 0.15);
-    border-color: rgba(107, 184, 255, 0.4);
+    background-color: rgba(var(--accent-rgb), 0.15);
+    border-color: rgba(var(--accent-rgb), 0.4);
 }
 
 .channel-reveal.revealed {
-    background-color: rgba(107, 184, 255, 0.15);
-    border-color: #6bb8ff;
+    background-color: rgba(var(--accent-rgb), 0.15);
+    border-color: var(--accent-color);
     color: var(--text-color-primary);
     cursor: default;
 }
@@ -377,7 +379,7 @@ body {
     padding: 12px 28px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 6px;
-    background-color: rgba(107, 184, 255, 0.1);
+    background-color: rgba(var(--accent-rgb), 0.12);
     color: var(--text-color-primary);
     font-family: 'Outfit', sans-serif;
     font-size: 0.95rem;
@@ -387,8 +389,8 @@ body {
 }
 
 .modal-box button:hover {
-    background-color: rgba(107, 184, 255, 0.2);
-    border-color: rgba(107, 184, 255, 0.5);
+    background-color: rgba(var(--accent-rgb), 0.22);
+    border-color: rgba(var(--accent-rgb), 0.5);
 }
 
 .modal-box button:active {
