@@ -218,19 +218,11 @@ body {
 .actions button:hover {
     background-color: rgba(var(--accent-rgb), 0.22);
     border-color: rgba(var(--accent-rgb), 0.5);
+    transform: translateY(-2px);
 }
 
 .actions button:active {
     transform: scale(0.98);
-}
-
-.actions button:hover {
-    transform: translateY(-2px);
-}
-
-.results {
-    text-align: center;
-    font-family: 'Outfit', sans-serif;
 }
 
 .modal-overlay {
@@ -245,9 +237,6 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-}
-
-.modal-overlay {
     animation: fadeIn 0.25s ease;
 }
 

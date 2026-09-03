@@ -8,7 +8,6 @@ const gSlider = document.getElementById("green-slider");
 const bSlider = document.getElementById("blue-slider");
 const checkGuessButton = document.getElementById("check-guess-btn");
 const newColorButton = document.getElementById("new-color-btn");
-const scoreLabel = document.getElementById("score-value");
 const scoreMessage = document.getElementById("score-message");
 const modalScoreDisplay = document.getElementById("modal-score-value");
 const scoreModal = document.getElementById("scoreModal");
@@ -231,6 +230,12 @@ channelRevealButtons.forEach(btn => {
 // Close modal when clicking on the overlay background
 scoreModal?.addEventListener("click", (event) => {
     if (event.target === scoreModal) {
+        closeModal();
+    }
+});
+// Close modal with the Escape key
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && scoreModal?.style.display === "flex") {
         closeModal();
     }
 });
