@@ -65,8 +65,12 @@
                 <div class="modal-target-info">
                     <p class="target-label">Target Color</p>
                     <div class="modal-target-color-box" id="modal-target-color-box"></div>
-                    <p class="target-hex" id="modal-target-hex">#------</p>
-                    <p class="target-rgb"><span class="rgb-label">R:</span> <span id="modal-target-r">0</span> <span class="rgb-label">G:</span> <span id="modal-target-g">0</span> <span class="rgb-label">B:</span> <span id="modal-target-b">0</span></p>
+                    <p class="target-hex" id="modal-target-hex">#??????</p>
+                    <p class="target-rgb">
+                        <button type="button" class="channel-reveal" id="reveal-r" data-channel="r"><span class="rgb-label">R:</span> <span id="modal-target-r">?</span></button>
+                        <button type="button" class="channel-reveal" id="reveal-g" data-channel="g"><span class="rgb-label">G:</span> <span id="modal-target-g">?</span></button>
+                        <button type="button" class="channel-reveal" id="reveal-b" data-channel="b"><span class="rgb-label">B:</span> <span id="modal-target-b">?</span></button>
+                    </p>
                 </div>
                 <button id="close-modal-btn">Close</button>
                 <div class="modal-actions">
