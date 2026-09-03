@@ -342,6 +342,30 @@ body {
     font-weight: 600;
 }
 
+.channel-reveal {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.channel-reveal:hover {
+    background-color: rgba(107, 184, 255, 0.15);
+    border-color: rgba(107, 184, 255, 0.4);
+}
+
+.channel-reveal.revealed {
+    background-color: rgba(107, 184, 255, 0.15);
+    border-color: #6bb8ff;
+    color: var(--text-color-primary);
+    cursor: default;
+}
+
 .modal-actions {
     display: flex;
     gap: 12px;

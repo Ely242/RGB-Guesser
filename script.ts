@@ -23,10 +23,16 @@ const modalTargetR = document.getElementById("modal-target-r") as HTMLElement;
 const modalTargetG = document.getElementById("modal-target-g") as HTMLElement;
 const modalTargetB = document.getElementById("modal-target-b") as HTMLElement;
 const modalTargetColorBox = document.getElementById("modal-target-color-box") as HTMLElement;
+const channelRevealButtons = document.querySelectorAll<HTMLButtonElement>(".channel-reveal");
+
+type Channel = "r" | "g" | "b";
+const channelIndex: Record<Channel, number> = { r: 0, g: 1, b: 2 };
 
 let targetColor: number[] = [0, 0, 0];
 let guessColor: number[] = [0, 0, 0];
 let score = 0;
+// tracks which target channels the player has chosen to reveal in the score modal
+let revealedChannels: Record<Channel, boolean> = { r: false, g: false, b: false };
 
 const messageTiers = [
   { threshold: 100, phrases: ["Flawless!", "Pure Perfection!"] },
@@ -88,6 +94,33 @@ function initGame() {
         guessColorBox.style.boxShadow = "0 0 40px rgba(0, 0, 0, 0.1)";
     }
 
+    // hide the target values again for the new round
+    revealedChannels = { r: false, g: false, b: false };
+    renderModalTarget();
+}
+
+/**
+ * Renders the target hex code and RGB values in the modal, masking any channel that hasn't
+ * been revealed yet with "?" (or "??" for the corresponding two hex digits).
+ */
+function renderModalTarget() {
+    const displayValue = (channel: Channel): string =>
+        revealedChannels[channel] ? targetColor[channelIndex[channel]].toString() : "?";
+    const displayHexPart = (channel: Channel): string =>
+        revealedChannels[channel] ? targetColor[channelIndex[channel]].toString(16).padStart(2, '0').toUpperCase() : "??";
+
+    if (modalTargetR) modalTargetR.textContent = displayValue("r");
+    if (modalTargetG) modalTargetG.textContent = displayValue("g");
+    if (modalTargetB) modalTargetB.textContent = displayValue("b");
+
+    if (modalTargetHex) {
+        modalTargetHex.textContent = `#${displayHexPart("r")}${displayHexPart("g")}${displayHexPart("b")}`;
+    }
+
+    channelRevealButtons.forEach(btn => {
+        const channel = btn.dataset.channel as Channel;
+        btn.classList.toggle("revealed", revealedChannels[channel]);
+    });
 }
 
 /**
@@ -203,19 +236,12 @@ function handleCheckGuess() {
         modalScoreDisplay.classList.add("pulse");
     }
 
-    // Update target color info
-    if (modalTargetHex) {
-        modalTargetHex.textContent = getHexCode(targetColor);
+    // a perfect guess reveals everything, otherwise only previously-revealed channels stay visible
+    if (score === 100) {
+        revealedChannels = { r: true, g: true, b: true };
     }
-    if (modalTargetR) {
-        modalTargetR.textContent = targetColor[0].toString();
-    }
-    if (modalTargetG) {
-        modalTargetG.textContent = targetColor[1].toString();
-    }
-    if (modalTargetB) {
-        modalTargetB.textContent = targetColor[2].toString();
-    }
+    renderModalTarget();
+
     if (modalTargetColorBox) {
         modalTargetColorBox.style.backgroundColor = `rgb(${targetColor[0]}, ${targetColor[1]}, ${targetColor[2]})`;
     }
@@ -238,6 +264,14 @@ function closeModal() {
 }
 
 closeModalButton?.addEventListener("click", closeModal);
+
+channelRevealButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const channel = btn.dataset.channel as Channel;
+        revealedChannels[channel] = true;
+        renderModalTarget();
+    });
+});
 
 // Close modal when clicking on the overlay background
 scoreModal?.addEventListener("click", (event: Event) => {
