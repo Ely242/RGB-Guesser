@@ -67,9 +67,6 @@ body {
     height: 320px;
     border-radius: 8px;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    /* add an outer glow */
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .color-box:hover {

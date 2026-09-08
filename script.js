@@ -72,10 +72,6 @@ function initGame() {
             valueDisplay.textContent = "0";
         }
     });
-    // reset the box shadow
-    if (guessColorBox) {
-        guessColorBox.style.boxShadow = "0 0 40px rgba(0, 0, 0, 0.1)";
-    }
     // hide the target values again for the new round
     revealedChannels = { r: false, g: false, b: false };
     renderModalTarget();
@@ -137,9 +133,6 @@ const handleSliderInput = (event) => {
     const valueDisplay = sliderParent?.querySelector('.value-display');
     if (valueDisplay) {
         valueDisplay.textContent = slider.value;
-    }
-    if (guessColorBox) {
-        guessColorBox.style.boxShadow = `0 0 40px rgba(${rSlider.value}, ${gSlider.value}, ${bSlider.value}, 0.5)`;
     }
     updateGuessBox();
 };
