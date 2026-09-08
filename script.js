@@ -8,7 +8,6 @@ const gSlider = document.getElementById("green-slider");
 const bSlider = document.getElementById("blue-slider");
 const checkGuessButton = document.getElementById("check-guess-btn");
 const newColorButton = document.getElementById("new-color-btn");
-const scoreLabel = document.getElementById("score-value");
 const scoreMessage = document.getElementById("score-message");
 const modalScoreDisplay = document.getElementById("modal-score-value");
 const scoreModal = document.getElementById("scoreModal");
@@ -19,9 +18,13 @@ const modalTargetR = document.getElementById("modal-target-r");
 const modalTargetG = document.getElementById("modal-target-g");
 const modalTargetB = document.getElementById("modal-target-b");
 const modalTargetColorBox = document.getElementById("modal-target-color-box");
+const channelRevealButtons = document.querySelectorAll(".channel-reveal");
+const channelIndex = { r: 0, g: 1, b: 2 };
 let targetColor = [0, 0, 0];
 let guessColor = [0, 0, 0];
 let score = 0;
+// tracks which target channels the player has chosen to reveal in the score modal
+let revealedChannels = { r: false, g: false, b: false };
 const messageTiers = [
     { threshold: 100, phrases: ["Flawless!", "Pure Perfection!"] },
     { threshold: 90, phrases: ["Amazing!", "Elite Vision!"] },
@@ -73,6 +76,30 @@ function initGame() {
     if (guessColorBox) {
         guessColorBox.style.boxShadow = "0 0 40px rgba(0, 0, 0, 0.1)";
     }
+    // hide the target values again for the new round
+    revealedChannels = { r: false, g: false, b: false };
+    renderModalTarget();
+}
+/**
+ * Renders the target hex code and RGB values in the modal, masking any channel that hasn't
+ * been revealed yet with "?" (or "??" for the corresponding two hex digits).
+ */
+function renderModalTarget() {
+    const displayValue = (channel) => revealedChannels[channel] ? targetColor[channelIndex[channel]].toString() : "?";
+    const displayHexPart = (channel) => revealedChannels[channel] ? targetColor[channelIndex[channel]].toString(16).padStart(2, '0').toUpperCase() : "??";
+    if (modalTargetR)
+        modalTargetR.textContent = displayValue("r");
+    if (modalTargetG)
+        modalTargetG.textContent = displayValue("g");
+    if (modalTargetB)
+        modalTargetB.textContent = displayValue("b");
+    if (modalTargetHex) {
+        modalTargetHex.textContent = `#${displayHexPart("r")}${displayHexPart("g")}${displayHexPart("b")}`;
+    }
+    channelRevealButtons.forEach(btn => {
+        const channel = btn.dataset.channel;
+        btn.classList.toggle("revealed", revealedChannels[channel]);
+    });
 }
 /**
  * Changes the array representing a color to a string representing it's hexadecimal representation
@@ -170,19 +197,11 @@ function handleCheckGuess() {
         void modalScoreDisplay.offsetWidth;
         modalScoreDisplay.classList.add("pulse");
     }
-    // Update target color info
-    if (modalTargetHex) {
-        modalTargetHex.textContent = getHexCode(targetColor);
+    // a perfect guess reveals everything, otherwise only previously-revealed channels stay visible
+    if (score === 100) {
+        revealedChannels = { r: true, g: true, b: true };
     }
-    if (modalTargetR) {
-        modalTargetR.textContent = targetColor[0].toString();
-    }
-    if (modalTargetG) {
-        modalTargetG.textContent = targetColor[1].toString();
-    }
-    if (modalTargetB) {
-        modalTargetB.textContent = targetColor[2].toString();
-    }
+    renderModalTarget();
     if (modalTargetColorBox) {
         modalTargetColorBox.style.backgroundColor = `rgb(${targetColor[0]}, ${targetColor[1]}, ${targetColor[2]})`;
     }
@@ -201,10 +220,74 @@ function closeModal() {
     }
 }
 closeModalButton?.addEventListener("click", closeModal);
+channelRevealButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const channel = btn.dataset.channel;
+        revealedChannels[channel] = true;
+        renderModalTarget();
+    });
+});
 // Close modal when clicking on the overlay background
 scoreModal?.addEventListener("click", (event) => {
     if (event.target === scoreModal) {
         closeModal();
+    }
+});
+// Close modal with the Escape key
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && scoreModal?.style.display === "flex") {
+        closeModal();
+    }
+});
+// keyboard shortcuts: Ctrl+Enter checks the guess, Ctrl+' starts a new color,
+// and Up/Down move focus between the R, G, and B sliders (Left/Right keep their
+// native behaviour of nudging the focused slider's value)
+const rgbSliders = [rSlider, gSlider, bSlider];
+document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey && event.key === "Enter") {
+        event.preventDefault();
+        handleCheckGuess();
+        return;
+    }
+    if (event.ctrlKey && event.key === "'") {
+        event.preventDefault();
+        initGame();
+        return;
+    }
+    const target = event.target;
+    const key = event.key.toLowerCase();
+    const isSliderFocused = target?.classList?.contains("rgb-slider") ?? false;
+    // Up/Down/W/S move focus between sliders, or focus the first slider if none is focused yet
+    if (key === "arrowup" || key === "arrowdown" || key === "w" || key === "s") {
+        event.preventDefault();
+        if (isSliderFocused) {
+            const currentIndex = rgbSliders.indexOf(target);
+            const nextIndex = key === "arrowup" || key === "w" ? currentIndex - 1 : currentIndex + 1;
+            rgbSliders[nextIndex]?.focus();
+        }
+        else {
+            rgbSliders[0]?.focus();
+        }
+        return;
+    }
+    // Left/Right/A/D nudge the focused slider's value, or focus and nudge the first slider if none is focused yet
+    if (key === "arrowleft" || key === "arrowright" || key === "a" || key === "d") {
+        const slider = (isSliderFocused ? target : rgbSliders[0]);
+        if (!slider)
+            return;
+        // native range inputs already nudge their value on ArrowLeft/ArrowRight when focused,
+        // so only step the value manually for A/D or when we're focusing the slider for the first time
+        const needsManualStep = key === "a" || key === "d" || !isSliderFocused;
+        if (!isSliderFocused) {
+            slider.focus();
+        }
+        if (needsManualStep) {
+            event.preventDefault();
+            const step = Number(slider.step) || 1;
+            const isDecrease = key === "arrowleft" || key === "a";
+            slider.value = String(+slider.value + (isDecrease ? -step : step));
+            slider.dispatchEvent(new Event("input", { bubbles: true }));
+        }
     }
 });
 // initialize the game
